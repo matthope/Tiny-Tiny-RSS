@@ -685,11 +685,13 @@
 	}
 
 	function get_ssl_certificate_id() {
-		if ($_SERVER["REDIRECT_SSL_CLIENT_M_SERIAL"]) {
-			return sha1($_SERVER["REDIRECT_SSL_CLIENT_M_SERIAL"] .
-				$_SERVER["REDIRECT_SSL_CLIENT_V_START"] .
-				$_SERVER["REDIRECT_SSL_CLIENT_V_END"] .
-				$_SERVER["REDIRECT_SSL_CLIENT_S_DN"]);
+		$ssl_client_prefix = "SSL_CLIENT";
+		if ($_SERVER["REDIRECT_SSL_CLIENT_M_SERIAL"]) { $ssl_client_prefix = "REDIRECT_SSL_CLIENT"; }
+		if ($_SERVER[$ssl_client_prefix . "_M_SERIAL"]) {
+			return sha1($_SERVER[$ssl_client_prefix . "_M_SERIAL"] .
+				$_SERVER[$ssl_client_prefix . "_V_START"] .
+				$_SERVER[$ssl_client_prefix . "_V_END"] .
+				$_SERVER[$ssl_client_prefix . "_S_DN"]);
 		}
 		return "";
 	}
